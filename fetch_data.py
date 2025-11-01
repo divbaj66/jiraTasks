@@ -29,6 +29,7 @@ def fetch_jira_story_data(driver, story_url):
         "affectVersion": '[data-testid="issue.views.field.single-line-text.read-view.customfield_10061"]',
         "fixedVersion": '[data-testid="issue.views.field.single-line-text.read-view.customfield_10059"]',
         "epic": '[data-testid="issue-field-parent.ui.view-link"]',
+        "status": '[data-testid="issue-field-status.ui.status-view.status-button.status-button"]',
         "assignee": '[data-testid="issue.views.field.user.assignee"]',
         "dueDate": '[data-testid="coloured-due-date.ui.colored-due-date-container"]',
         "startDate": '[data-testid="issue-field-date.ui.issue-field-date--container"]',
@@ -64,7 +65,7 @@ def fetch_jira_story_data(driver, story_url):
 
     # --- Linked Issues ---
     container = safe_find(driver, By.CSS_SELECTOR, '[data-testid="issue.views.issue-base.content.issue-links.group-container"]')
-    uls = container.find_elements(By.TAG_NAME, 'ul')
+    uls = container.find_elements(By.CSS_SELECTOR, 'div[role="listitem"]')
     incomplete_linked_issues = []
 
     for ul in uls:
@@ -83,6 +84,7 @@ def fetch_jira_story_data(driver, story_url):
     js = driver.execute_script
     data = [
         elems["storyID"].text,
+        js("return arguments[0].textContent;", elems["status"]),
         elems["title"].text,
         elems["assignee"].text,
         js("return arguments[0].textContent;", elems["reporter"]),

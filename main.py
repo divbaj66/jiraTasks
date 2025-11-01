@@ -17,7 +17,7 @@ def main():
             time.sleep(5)
 
         # Save to Excel
-        write_to_excel("dod_report.xlsx", all_data)
+        write_to_excel("dod_report_2.xlsx", all_data)
 
       
         
